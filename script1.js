@@ -2,9 +2,22 @@ var http = require('http'); //http contient ttes les fonctions et objets exportÃ
 
 var serveur = http.createServer(function(req, res)
 {
-    console.log("RequÃªte d'un client ");
+    console.log(req.url);
+    var requete = req.url;
     res.writeHead(200, {"Content-type": "text/plain"});
-    res.end("Salut tout le monde !");
+    
+    if(requete=="/direBonjour")
+    {
+        res.end("Salut Utilisateur !");
+    }
+    else if (requete=="/direAuRevoir")
+    {
+        res.end("Au revoir Utilisateur !");
+    }
+    else
+    {
+        res.end("Service inconnu");
+    }
 });
 
 serveur.listen(8080);
