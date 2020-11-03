@@ -11,41 +11,49 @@ var serveur = http.createServer(function(req, res) //Callback
     var params = querystring.parse(requete.query); //Récupération des arguments de la requete
     res.writeHead(200, {"Content-type": "text/plain"});
 
-    if(req.url = "/fichier1.txt")
-    {
+    //TODO: Ignorer les parametres
+    if(req.url == "/Fichiers/fichier1.txt")
+    {        
         //Lecture du fichier
+        fs.readFile(__dirname+"/"+chemin, 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                res.end("Une erreur s'est produite. Veuillez vérifier votre requête !")
+                return;
+            }
+            else
+                res.end(data);
+        })
     }
-    else if(req.url = "/fichier2.txt")
+    else if(req.url == "/Fichiers/fichier2.txt")
     {
         //Lecture du fichier
+        fs.readFile(__dirname+"/"+chemin, 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            else
+                res.end(data);
+        })
     }
-    else if(req.url = "/fichier3.txt")
+    else if(req.url == "/Fichiers/fichier3.txt")
     {
         //Lecture du fichier
+        fs.readFile(__dirname+"/"+chemin, 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            else
+                res.end(data);
+        })
     }
     else 
     {
         //Le fichier n'existe pas
         console.log("La page est introuvable");
         res.end("La page est introuvable");
-    }
-});
-
-fs.readFile(__dirname+"/"+chemin+"/"+nomFichier, function(err,data))
-{
-    if(err)
-    {
-        //Traitement de l'erreur et envoie d'une réponse
-        console.log("Erreur de lecture du fichier");
-    }
-    else
-    {
-        //Ecriture de l'entête
-        //TODO: en fonction de l'extension
-        //on envoit au navigateur le type de fichier
-
-        //Envoi du contenu du fichier
-        res.end(data, 'binary');
     }
 });
 
