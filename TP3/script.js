@@ -21,8 +21,17 @@ io.sockets.on('connection', function(socket)
 {
     console.log("Un client s'est connecté");
 
+    socket.on("message", (msg) =>{
+        console.log("Le message reçu est :",msg);
+    });
+
+    socket.on("message", function(msg){
+        socket.emit("message", "le serveur te parle");
+    });
+
     socket.on("disconnect", function()
     {
         console.log("Un client s'est déconnecté");
     });
 });
+
