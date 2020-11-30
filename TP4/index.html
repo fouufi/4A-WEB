@@ -1,0 +1,66 @@
+<!doctype HTML>
+<html>
+    <head>
+        <title>Initiation VueJS</title>
+        <meta charset="utf8"/>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    </head>
+    <body>
+        <div id="app">
+        <ul>
+            <input type="text" v-model="new_object"/>
+            <input type="button" v-on:click="new_object_add()" value="ajouter dans la liste"/>
+
+            <li v-for="objet in liste" :key="objet.nom">
+                <strong>{{ objet.nom }}</strong>:
+                <strong>x {{ objet.quantite }}</strong>
+                <input type="button" v-on:click="augmentation()" value="+"/>
+                <input type="button" v-on:click="diminution()" value="-"/>
+            </li>
+        </ul>
+        </div>
+
+    <script language="javascript">
+        //TODO
+        new Vue({
+            el: '#app', //élément html qui portera l'app
+            data:{
+                liste:[ //Contient diverses données qui évolueront
+                    {nom:"chocolats", quantite:1},
+                    {nom:"pain", quantite:1}
+                ],
+                new_object:""
+            },
+            methods:{
+                new_object_add: function()
+                {
+                    if (this.new_object != "")
+                    {
+                        this.liste.push(
+                        {
+                            nom: this.new_object,
+                            quantite: 1
+                        })
+                    }
+                },
+        
+                augmentation: function()
+                {
+                    //this.liste.quantite += 1;
+                },
+        
+                diminution: function()
+                {
+                    this.liste.quantite -= 1;
+                    
+                    if (this.liste.quantite < 0)
+                    {
+                        this.liste.quantite = 0;
+                    }
+                }
+            }
+        });
+
+    </script>
+    </body>
+</html>
