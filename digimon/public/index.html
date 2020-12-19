@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pokemon!</title>
+    <h1>Pokemon!</h1>
+	<link rel="shortcut icon" type="image/png" href="../images/004.png"/>
+  <meta charset="utf-8"/>
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+	<div id="app">
+		
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	
+    <script>
+  
+    new Vue({
+    	el: '#app',
+      	vuetify: new Vuetify(),
+      	data:{
+      		movies:[],
+      		selected:0,
+      		categorie:'all',
+      		categories:[{label:"Toutes", clef:'all'}],
+      		categorieChoisie:true,
+      		overlay:false
+      	},
+      	created:function(){
+      		this.getCategories();
+      		this.getSelection();
+      	},
+      	methods:{
+      		afficher:function(index){
+      			this.selected = index;
+      			this.movies[this.selected].recherche = this.movies[this.selected].title;
+      			this.movies[this.selected].recherche.replace(/ /gi, "+");
+      			this.movies[this.selected].recherche+="+"+this.movies[this.selected].year;
+      			this.overlay = true;
+      		},
+      		getCategories:function(){
+      			var self = this;
+      			axios.get("categories").then(function(reponse){
+      					console.log(self);
+						self.categories = reponse.data;
+						self.categories.unshift({label:"Toutes", clef:'all'});
+				});
+      		},
+			getSelection:function(){
+				var self = this;
+				axios.get("listeFilms/"+this.categorie).then(function(reponse){
+						console.log(reponse);
+						if (reponse.data.statut=='OK'){
+							self.movies = reponse.data.movies;
+							console.log("Chargement de "+self.movies.length+" films");
+						}
+						else{
+							console.log("Erreur de chargement de "+self.categorie);
+						}
+				});
+			}
+		},
+    })
+  </script>
+  </div>
+</body>
+</html>
+
