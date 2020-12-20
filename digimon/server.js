@@ -29,7 +29,7 @@ var express = require('express');
 
 //Affiche la liste des pokémons dont le nom contient la chaîne passée en paramètre 
 app.get('/pokemonsParNom/:chaine', function (req, res) {
-    
+
     let sub_pokename = req.params.chaine;
     sub_pokename = sub_pokename.toLowerCase(req.params.chaine);
     

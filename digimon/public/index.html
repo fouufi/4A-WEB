@@ -1,30 +1,108 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Pokemon!</title>
-    <h1>Pokemon!</h1>
-	<link rel="shortcut icon" type="image/png" href="../images/004.png"/>
-  <meta charset="utf-8"/>
-  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-</head>
+    <head>
+        <title>D!gimon</title>
+        <link rel="shortcut icon" type="image/png" href="images/150.png"/>
+        <meta charset="utf-8"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <meta nom="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    </head>
 <body>
 	<div id="app">
+		<v-app>
+			<v-container fluid fill-height class="d-flex flex-column align-stretch ma-0 pa-0" >
+				<v-layout column wrap justify-start class="ma-0 pa-0">
+					<v-dialog v-model="overlay" width="1000" class="ma-0 pa-0">
+						<v-layout column wrap justify-center align-center fill-height class="ma-0 pa-0">
+							<v-card v-if="overlay" class="col-12 grey darken-4 white--text">
+								<v-card-text class="col-12">
+									<v-layout row justify-center align-start class="ma-0 pa-0">
+										<v-img :src="pokemons[selected].image" class="col-4 grey darken-3" min-height=450></v-img>
+										<v-layout column class="col-7 white--text">
+												<div class="text-h3 mb-4"> {{ pokemons[selected].nom }} </div>
+												<div class="grey darken-3 text-subtitle-1 rounded-lg pa-2 mb-3"> {{ 'Type : '+pokemons[selected].types }} </div>
+												<!--<div class="text-body-1"> {{ 'Base : '+pokemons[selected].base }} </div>-->
+												<div class="text-body-1"> {{ pokemons[selected].description }} </div>
+										</v-loayout>		
+									</v-layout>
+								</v-card-text>
+								<v-card-actions>
+									<v-btn @click="overlay=false">Fermer</v-btn>
+								</v-card-actions>
+							</v-card>
+						</v-layout>
+					</v-dialog>
+					<v-app-bar class="grey darken-4 white--text text-center" max-height="150">
+						<v-app-bar-nav-icon><v-icon color="red">mdi-filmstrip</v-icon></v-app-bar-nav-icon>
+						<v-toolbar-title>
+							<v-container fill-height>
+								<v-layout row wrap justify-center align-center>
+									<div class="mr-10">D!gimon</div>
+									<v-select v-on:change="getSelection" dark class="mt-5" label="Catégorie"dense outlined v-model="categorie" :items="categories" item-text="nom" item-value="couleur"></v-select>
+								</v-layout>
+							</v-container>
+						</v-toolbar-title>
+					</v-app-bar>
 		
+						<v-layout v-if="categorie!='all'" row wrap align-center justify-center class="grey darken-1 white--text flex-grow-1">
+							<v-hover v-for="(pokemon,index) in pokemons" :key="index" v-slot="{ hover }">
+								<v-card @click="afficher(index)" :elevation="hover ? 24 : 6" :class="hover?'grey darken-2 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2':'grey darken-4 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2'" >
+									<v-img
+									  height="250"
+									  class="grey darken-3"
+									  :src="pokemon.image"
+									></v-img>
+									<v-card-title class="col-12 align-center justify-center" nowrap><div style="white-space: nowrap ; overflow: hidden ; text-overflow: ellipsis;">{{ pokemon.nom }}</div></v-card-title>
+								</v-card>
+							</v-hover>
+						</v-layout>
+	
+					
+						<v-layout v-else row wrap align-center justify-center class="grey darken-1 white--text flex-grow-1">
+							<v-hover v-for="(pokemon, index) in pokemons" :key="index" v-slot="{ hover }">
+								<v-card @click="afficher(index)" :elevation="hover ? 24 : 6" :class="hover?'grey darken-2 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2':'grey darken-4 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2'" >
+									<v-img
+									  height="250"
+									  class="grey darken-3"
+									  :src="pokemon.image"
+									></v-img>
+									<v-card-title class="col-12 align-center justify-center" nowrap><div style="white-space: nowrap ; overflow: hidden ; text-overflow: ellipsis;">{{ pokemon.nom }}</div></v-card-title>
+								</v-card>
+							</v-hover>
+						
+					</v-layout>
+					
+				</v-layout>
+	  		</v-container>
+    	</v-app>
+	</div>
+
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	
-    <script>
+	<script>
+	Vue.component("identite", {
+		data:function() {
+			return {
+				titre:"Ma super carte",
+				texte:"Hello, world!"
+			};
+		},
+		template:"<v-card><v-card-title>{{ nom }}</v-card-title><v-card-text>{{ texte }}</v-card-text><v-card-actions><v-btn>OK</v-btn><v-btn>Annuler</v-btn></v-card-actions></v-card>"
+  	});
+  
+  
   
     new Vue({
     	el: '#app',
       	vuetify: new Vuetify(),
       	data:{
-      		movies:[],
+      		pokemons:[],
       		selected:0,
       		categorie:'all',
-      		categories:[{label:"Toutes", clef:'all'}],
+      		categories:[{nom:"Toutes", couleurs:'all'}],
       		categorieChoisie:true,
       		overlay:false
       	},
@@ -35,9 +113,10 @@
       	methods:{
       		afficher:function(index){
       			this.selected = index;
-      			this.movies[this.selected].recherche = this.movies[this.selected].title;
-      			this.movies[this.selected].recherche.replace(/ /gi, "+");
-      			this.movies[this.selected].recherche+="+"+this.movies[this.selected].year;
+      			this.pokemons[this.selected].recherche = this.pokemons[this.selected].nom;
+      			this.pokemons[this.selected].recherche.replace(/ /gi, "+");
+                this.pokemons[this.selected].recherche+="+"+this.pokemons[this.selected].types;
+                this.pokemons[this.selected].recherche+="+"+this.pokemons[this.selected].description;
       			this.overlay = true;
       		},
       		getCategories:function(){
@@ -45,16 +124,16 @@
       			axios.get("categories").then(function(reponse){
       					console.log(self);
 						self.categories = reponse.data;
-						self.categories.unshift({label:"Toutes", clef:'all'});
+						self.categories.unshift({nom:"Toutes", couleurs:'all'});
 				});
       		},
 			getSelection:function(){
 				var self = this;
-				axios.get("listeFilms/"+this.categorie).then(function(reponse){
+				axios.get("pokemonsParCat/"+this.categorie).then(function(reponse){
 						console.log(reponse);
 						if (reponse.data.statut=='OK'){
-							self.movies = reponse.data.movies;
-							console.log("Chargement de "+self.movies.length+" films");
+							self.pokemons = reponse.data.pokemons;
+							console.log("Chargement de "+self.pokemons.length+" pokemons");
 						}
 						else{
 							console.log("Erreur de chargement de "+self.categorie);
@@ -64,7 +143,6 @@
 		},
     })
   </script>
-  </div>
 </body>
 </html>
 
