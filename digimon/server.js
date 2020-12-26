@@ -4,7 +4,7 @@ var http = require('http');
 var fs = require('fs');
 
 console.log("Chargement de la base de données");
-let database = JSON.parse(fs.readFileSync('./Donnees/pokedex.json')); //Lecture de la db
+let database = JSON.parse(fs.readFileSync('pokedex.json')); //Lecture de la db
 
 var app = express();
 //Activation du serveur statique
@@ -15,7 +15,7 @@ app.get('/pokemonsParCat/:categorie', function (req, res) {
     else{
         let resultat = [];
         database.types.forEach(function(pokemon){
-var express = require('express'); 
+            var express = require('express'); 
             console.log(pokemon);
 
             if (pokemon.nom.indexOf(req.params.categorie)!=-1){

@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>D!gimon</title>
-        <link rel="shortcut icon" type="image/png" href="images/150.png"/>
+        <link rel="shortcut icon" type="image/png" href="Images/150.png"/>
         <meta charset="utf-8"/>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
@@ -22,9 +22,14 @@
 										<v-img :src="pokemons[selected].image" class="col-4 grey darken-3" min-height=450></v-img>
 										<v-layout column class="col-7 white--text">
 												<div class="text-h3 mb-4"> {{ pokemons[selected].nom }} </div>
-												<div class="grey darken-3 text-subtitle-1 rounded-lg pa-2 mb-3"> {{ 'Type : '+pokemons[selected].types }} </div>
-												<!--<div class="text-body-1"> {{ 'Base : '+pokemons[selected].base }} </div>-->
-												<div class="text-body-1"> {{ pokemons[selected].description }} </div>
+												<div class="grey darken-3 text-subtitle-1 rounded-lg pa-2 mb-3"> {{ pokemons[selected].types.nom }} </div>
+												<div class="text-body-1" > {{ pokemons[selected].description }} </div>
+                                                <div class="text-body-1" style="color: green"><br> {{ 'Santé : '+pokemons[selected].base.HP }} </div>
+                                                <div class="text-body-1" style="color: red"> {{ 'Attaque : '+pokemons[selected].base.Attack }} </div>
+                                                <div class="text-body-1" style="color: cyan"> {{ 'Défense : '+pokemons[selected].base.Defense }} </div>
+                                                <div class="text-body-1" style="color: purple"> {{ 'Attaque Spé : '+pokemons[selected].base.SpAttack }} </div>
+                                                <div class="text-body-1" style="color: blue"> {{ 'Défense Spé : '+pokemons[selected].base.SpDefense }} </div>
+                                                <div class="text-body-1" style="color: yellow"> {{ 'Vitesse : '+pokemons[selected].base.Speed }} </div>
 										</v-loayout>		
 									</v-layout>
 								</v-card-text>
@@ -35,7 +40,7 @@
 						</v-layout>
 					</v-dialog>
 					<v-app-bar class="grey darken-4 white--text text-center" max-height="150">
-						<v-app-bar-nav-icon><v-icon color="red">mdi-filmstrip</v-icon></v-app-bar-nav-icon>
+						<v-app-bar-nav-icon><v-icon color="red">mdi-pokeball</v-icon></v-app-bar-nav-icon>
 						<v-toolbar-title>
 							<v-container fill-height>
 								<v-layout row wrap justify-center align-center>
