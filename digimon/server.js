@@ -25,38 +25,18 @@ app.get('/pokemonsParCat/:categorie', function (req, res) {
         console.log(resultat.length);
         res.send({statut:'OK', pokemons:resultat});
     }
-  });
-
-//Affiche la liste des pokémons dont le nom contient la chaîne passée en paramètre 
-app.get('/pokemonsParNom/:chaine', function (req, res) {
-
-    let sub_pokename = req.params.chaine;
-    sub_pokename = sub_pokename.toLowerCase(req.params.chaine);
-    
-    let is_included;
-    is_included = database.pokemons.includes(sub_pokename);
-    
-    if (is_included == true)
-    {
-        res.send("Match founded with the substring :", sub_pokename);
-    }
-    else
-    {
-        res.send("sorry not here!");
-    }
 });
+
 //générer aléatoirement une équipe de 6 pokémons de type différents
 app.get('/randomtypes', function (req, res)
 {
     let random = Math.floor(Math.random() * (max-min+1) + min);
-    let nb_poke = 6;
+    
     
     res.end("Sorry, this part has not been finished yet!");
     //Unfinished
     
 });
-
-
 
 app.get('/pokemons', function (req, res) {
 	res.send(database.pokemons);

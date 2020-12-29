@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>D!gimon</title>
+        <title>P0K3M0N</title>
         <link rel="shortcut icon" type="image/png" href="Images/150.png"/>
         <meta charset="utf-8"/>
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
@@ -21,37 +21,52 @@
 									<v-layout row justify-center align-start class="ma-0 pa-0">
 										<v-img :src="pokemons[selected].image" class="col-4 grey darken-3" min-height=450></v-img>
 										<v-layout column class="col-7 white--text">
-												<div class="text-h3 mb-4"> {{ pokemons[selected].nom }} </div>
-												<div class="grey darken-3 text-subtitle-1 rounded-lg pa-2 mb-3"> {{ pokemons[selected].types.nom }} </div>
-												<div class="text-body-1" > {{ pokemons[selected].description }} </div>
+                                                <!-- Affichage infos du pokemon sélectionné -->
+												
+                                                <div class="text-h3 mb-4"> {{ pokemons[selected].nom }} </div>
+												<div class="grey darken-3 text-subtitle-1 rounded-lg pa-2 mb-3"><span v-for="type in pokemons[selected].types" :key="type"> {{ "Type : "+type.nom }}<br/></span></div>
+                                                <div class="text-body-1" > {{ pokemons[selected].description }} </div>
                                                 <div class="text-body-1" style="color: green"><br> {{ 'Santé : '+pokemons[selected].base.HP }} </div>
                                                 <div class="text-body-1" style="color: red"> {{ 'Attaque : '+pokemons[selected].base.Attack }} </div>
                                                 <div class="text-body-1" style="color: cyan"> {{ 'Défense : '+pokemons[selected].base.Defense }} </div>
                                                 <div class="text-body-1" style="color: purple"> {{ 'Attaque Spé : '+pokemons[selected].base.SpAttack }} </div>
                                                 <div class="text-body-1" style="color: blue"> {{ 'Défense Spé : '+pokemons[selected].base.SpDefense }} </div>
                                                 <div class="text-body-1" style="color: yellow"> {{ 'Vitesse : '+pokemons[selected].base.Speed }} </div>
+
 										</v-loayout>		
 									</v-layout>
 								</v-card-text>
 								<v-card-actions>
+                                    <!-- Boutons -->
 									<v-btn @click="overlay=false">Fermer</v-btn>
+                                    <v-btn @click="Ajouter_fav()">Ajouter à la liste de favoris</v-btn><!-- Ajouter aux favoris -->
 								</v-card-actions>
 							</v-card>
 						</v-layout>
 					</v-dialog>
-					<v-app-bar class="grey darken-4 white--text text-center" max-height="150">
-						<v-app-bar-nav-icon><v-icon color="red">mdi-pokeball</v-icon></v-app-bar-nav-icon>
+					<v-app-bar class="grey darken-4 white--text text-center" style="margin-bottom: 15px;" max-height="150"> 
+						<v-app-bar-nav-icon><v-icon color="red" large>mdi-pokeball</v-icon></v-app-bar-nav-icon>
 						<v-toolbar-title>
 							<v-container fill-height>
 								<v-layout row wrap justify-center align-center>
-									<div class="mr-10">D!gimon</div>
-									<v-select v-on:change="getSelection" dark class="mt-5" label="Catégorie"dense outlined v-model="categorie" :items="categories" item-text="nom" item-value="couleur"></v-select>
+									<div class="mr-10">P0K3M0N</div>
+                                    <v-spacer></v-spacer>
+                                    <v-btn icon large color="red" @click="recherche()"> <!-- Recherche pokemons -->
+                                        <v-icon>mdi-magnify</v-icon>
+                                    </v-btn>
+                                    <v-btn icon large color="red" @click="Afficher_fav()"> <!-- Affiche pokemons favoris -->
+                                        <v-icon>mdi-heart</v-icon>
+                                    </v-btn>
+                                    <v-btn icon large color="red" @click="Creer_equipe()"> <!-- Créer équipe (choix du nom + pokemons) -->
+                                        <v-icon>mdi-plus</v-icon>
+                                    </v-btn>
+                                    <!-- Autre -->
 								</v-layout>
 							</v-container>
 						</v-toolbar-title>
 					</v-app-bar>
-		
-						<v-layout v-if="categorie!='all'" row wrap align-center justify-center class="grey darken-1 white--text flex-grow-1">
+
+						<v-layout row wrap align-center justify-center class="red darken-1 white--text flex-grow-1" style="background-image: url(menu_bg.jpeg); background-attachment:fixed; background-repeat:no-repeat; background-size: cover;">
 							<v-hover v-for="(pokemon,index) in pokemons" :key="index" v-slot="{ hover }">
 								<v-card @click="afficher(index)" :elevation="hover ? 24 : 6" :class="hover?'grey darken-2 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2':'grey darken-4 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2'" >
 									<v-img
@@ -63,22 +78,7 @@
 								</v-card>
 							</v-hover>
 						</v-layout>
-	
-					
-						<v-layout v-else row wrap align-center justify-center class="grey darken-1 white--text flex-grow-1">
-							<v-hover v-for="(pokemon, index) in pokemons" :key="index" v-slot="{ hover }">
-								<v-card @click="afficher(index)" :elevation="hover ? 24 : 6" :class="hover?'grey darken-2 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2':'grey darken-4 white--text col-xl-2 col-lg-2 col-md-3 col-sm-6 ma-2'" >
-									<v-img
-									  height="250"
-									  class="grey darken-3"
-									  :src="pokemon.image"
-									></v-img>
-									<v-card-title class="col-12 align-center justify-center" nowrap><div style="white-space: nowrap ; overflow: hidden ; text-overflow: ellipsis;">{{ pokemon.nom }}</div></v-card-title>
-								</v-card>
-							</v-hover>
-						
 					</v-layout>
-					
 				</v-layout>
 	  		</v-container>
     	</v-app>
@@ -97,9 +97,7 @@
 		},
 		template:"<v-card><v-card-title>{{ nom }}</v-card-title><v-card-text>{{ texte }}</v-card-text><v-card-actions><v-btn>OK</v-btn><v-btn>Annuler</v-btn></v-card-actions></v-card>"
   	});
-  
-  
-  
+
     new Vue({
     	el: '#app',
       	vuetify: new Vuetify(),
@@ -107,7 +105,7 @@
       		pokemons:[],
       		selected:0,
       		categorie:'all',
-      		categories:[{nom:"Toutes", couleurs:'all'}],
+      		categories:[{nom:"Tous", couleur:'all'}],
       		categorieChoisie:true,
       		overlay:false
       	},
@@ -116,6 +114,28 @@
       		this.getSelection();
       	},
       	methods:{
+            
+            //Fonction de recherche d'un pokemon
+            recherche:function(){ 
+
+            },
+
+            //Fonction affichant les pokemons selectionnés comme étant favoris
+            Afficher_fav:function(){
+
+            },
+
+            //Fonction affichant les pokemons selectionnés comme étant favoris
+            Ajouter_fav:function(){
+
+            },
+
+            //Fonction permettant de créer une équipe de pokémons
+            Creer_equipe:function(){
+
+            },
+            //Fonction affichant les types + image faiblesse/forces
+
       		afficher:function(index){
       			this.selected = index;
       			this.pokemons[this.selected].recherche = this.pokemons[this.selected].nom;
@@ -131,16 +151,20 @@
 						self.categories = reponse.data;
 						self.categories.unshift({nom:"Toutes", couleurs:'all'});
 				});
-      		},
+            },
+              
+              //pokemonsParCat/:categorie
 			getSelection:function(){
 				var self = this;
 				axios.get("pokemonsParCat/"+this.categorie).then(function(reponse){
 						console.log(reponse);
-						if (reponse.data.statut=='OK'){
+                        if (reponse.data.statut=='OK')
+                        {
 							self.pokemons = reponse.data.pokemons;
 							console.log("Chargement de "+self.pokemons.length+" pokemons");
 						}
-						else{
+                        else
+                        {
 							console.log("Erreur de chargement de "+self.categorie);
 						}
 				});
