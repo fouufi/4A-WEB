@@ -14,11 +14,10 @@ app.get('/pokemonsParCat/:categorie', function (req, res) {
     if (req.params.categorie=='all') res.send({statut:'OK', pokemons:database.pokemons});
     else{
         let resultat = [];
-        database.types.forEach(function(pokemon){
-            var express = require('express'); 
+        database.pokemons.forEach(function(pokemon){ //database.types
             console.log(pokemon);
 
-            if (pokemon.nom.indexOf(req.params.categorie)!=-1){
+            if (pokemon.types.indexOf(req.params.categorie)!=-1){
                 resultat.push(pokemon);
             }
         });
@@ -42,7 +41,7 @@ app.get('/pokemons', function (req, res) {
 	res.send(database.pokemons);
 });
 
-app.get('/types', function (req, res) {
+app.get('/categories', function (req, res) {
 	res.send(database.types);
 });
 
