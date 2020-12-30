@@ -26,6 +26,21 @@ app.get('/pokemonsParCat/:categorie', function (req, res) {
     }
 });
 
+app.get('/pokemonsParChar/:pokemonchar', function (req, res) {
+    if (req.params.pokemonchar=='all') res.send({statut:'OK', pokemons:database.pokemons});
+    else{
+        let resultat = [];
+        database.pokemons.forEach(function(pokemon){ //database.types
+            console.log(pokemon);
+
+            if (pokemon.types.indexOf(req.params.pokemonchar)!=-1){
+                resultat.push(pokemon);
+            }
+        });
+        console.log(resultat.length);
+        res.send({statut:'OK', pokemons:resultat});
+    }
+});
 //générer aléatoirement une équipe de 6 pokémons de type différents
 app.get('/randomtypes', function (req, res)
 {
