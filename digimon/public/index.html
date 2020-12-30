@@ -132,7 +132,12 @@
         methods:{
             //Fonction affichant les pokemons selectionnés comme étant favoris
             Afficher_fav:function(){
-
+                var self = this;
+      			axios.get("categories").then(function(reponse){
+      					console.log(self);
+						self.categories = reponse.data;
+						self.categories.unshift({nom:"Toutes", couleurs:'all'});
+				});
             },
 
             //Fonction affichant les pokemons selectionnés comme étant favoris
