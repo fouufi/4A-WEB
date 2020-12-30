@@ -53,9 +53,19 @@
                                     <v-select v-on:change="getSelection" dark class="mt-5" label="Catégorie"dense outlined v-model="categorie" :items="categories" item-text="nom" item-value="couleur"></v-select>
 
                                     <v-spacer></v-spacer>
-                                    <v-btn icon large color="red" @click="pokemonsParChar()"> <!-- Recherche pokemons -->
+                                    <v-col cols="4" style="padding-top:30px; padding-left: 5px;">
+                                        <v-autocomplete
+                                            v-model="value"
+                                            :items="items"
+                                            dense
+                                            filled
+                                            clearable
+                                            label="Rechercher un pokemon"
+                                        ></v-autocomplete>
+                                    </v-col>
+                                    <!--<v-btn icon large color="red" @click="pokemonsParChar()"> Recherche pokemons 
                                         <v-icon>mdi-magnify</v-icon>
-                                    </v-btn>
+                                    </v-btn>-->
                                     <v-btn icon large color="red" @click="Afficher_fav()"> <!-- Affiche pokemons favoris -->
                                         <v-icon>mdi-heart</v-icon>
                                     </v-btn>
@@ -129,7 +139,8 @@
       		this.getCategories();
       		this.getSelection();
       	},
-      	methods:{
+          
+        methods:{
             
             //Fonction de recherche d'un pokemon avec une chaine de caractere contenu dans son nom
             pokemonsParChar:function(){
